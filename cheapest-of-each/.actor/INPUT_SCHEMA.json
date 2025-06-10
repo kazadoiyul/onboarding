@@ -1,0 +1,13 @@
+{
+    "title": "Heapest of `each Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "rows": {
+            "title": "Product List",
+            "type": "array",
+            "description": "Array of product objects from Amazon",
+            "editor" : "json"
+        }
+    }
+}

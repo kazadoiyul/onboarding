@@ -1,0 +1,14 @@
+{
+    "title": "Amazon Crawler Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "keyword": {
+            "title": "Search keyword",
+            "type": "string",
+            "description": "Keyword to search for products on Amazon",
+            "editor": "textfield"
+        }
+    },
+    "required": ["keyword"]
+}
