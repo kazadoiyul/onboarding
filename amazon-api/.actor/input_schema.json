@@ -1,0 +1,55 @@
+{
+    "title": "PuppeteerCrawler Template",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "memory": {
+            "description": "Memory allocated for the run",
+            "type": "integer",
+            "title": "Memory (MB)",
+            "default": 4096,
+            "minimum": 256
+        },
+        "useClient": {
+            "type": "boolean",
+            "description": "Whether to use a client (e.g., headless browser) for scraping. Defaults to false.",
+            "title": "Use Client",
+            "default": false
+        },
+        "fields" : {
+            "type": "array",
+            "description": "List of fields to extract from each item.",
+            "title": "Fields to Extract",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "title",
+                    "asin",
+                    "itemUrl",
+                    "keyword",
+                    "description",
+                    "sellerName",
+                    "offer"
+                ]
+            },
+            "default": [
+                "title",
+                "itemUrl",
+                "offer"],
+            "editor": "select"
+        },
+        "maxItems": {
+            "type": "integer",
+            "description": "Maximum number of items to scrape. Set to 0 for no limit.",
+            "title": "Maximum Items",
+            "default": 10,
+            "minimum": 0
+        }
+    },
+    "required": [
+        "memory",
+        "useClient",
+        "fields",
+        "maxItems"
+    ]
+}
