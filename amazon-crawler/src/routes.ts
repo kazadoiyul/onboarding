@@ -19,16 +19,13 @@ router.addHandler(labels.START, async ({ $, crawler, request }) => {
         const titleElement = $(element.find('.a-text-normal[href]'));
 
         if (!titleElement.attr('href')) {
-            log.warning(`found undefined in here!${element.attr('data-asin') || "idk"}`);
+            log.warning(`Found undefined! ${element.attr('data-asin')}`);
             continue;
         }
-        log.debug(`Starting ${titleElement.attr('href')}`);
 
         const url = `${BASE_URL}${titleElement.attr('href')}`;
 
         log.info(`Processing ${titleElement.first().text().trim()}`);
-        log.debug(element.attr('data-asin') || "idk");
-        log.info(`link is:  ${url}`);
 
         await crawler.addRequests([{
             url,
@@ -48,19 +45,14 @@ router.addHandler(labels.START, async ({ $, crawler, request }) => {
 
 router.addHandler(labels.PRODUCT, async ({ $, crawler, request }) => {
 
-    // setInterval(() => {}, 2000);
-
     const { data } = request.userData;
 
     const element = $('div#productDescription');
     const description = element.text().trim();
     log.debug(`description is: ${description}`);
 
-    setInterval(() => {}, 2000);
-
     await crawler.addRequests([{
         url: `${BASE_URL}/gp/aod/ajax/ref=auto_load_aod?asin=${data.asin}&pc=dp`,
-        // url: `${BASE_URL}/gp/aod/ajax?asin=${data.asin}&pc=dp`,
         label: labels.OFFERS,
         userData: {
             data: {
@@ -76,12 +68,6 @@ router.addHandler(labels.OFFERS, async ({ $, request }) => {
 
     for (const offer of $('#aod-offer')) {
         const element = $(offer);
-
-        // await Dataset.pushData({
-        //     ...data,
-        //     sellerName: element.find('div[id*="soldBy"] a[aria-label]').text().trim(),
-        //     offer: element.find('.a-price .a-offscreen').text().trim(),
-        // });
         const elementPrice = element.find('.a-price .a-offscreen').text().trim();
         if (!elementPrice) {
             continue;

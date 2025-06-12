@@ -15,7 +15,7 @@ if (!input || typeof input !== 'object' || Array.isArray(input)) {
 
 const { keyword } = input as { keyword: string };
 
-log.info(keyword);
+log.info(`Entered keyword is: ${keyword}`);
 
 
 const crawler = new CheerioCrawler({
@@ -31,8 +31,6 @@ await crawler.addRequests([
         },
     },
 ]);
-
-
 
 log.info('Starting the crawl.');
 await crawler.run();

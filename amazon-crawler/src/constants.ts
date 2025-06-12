@@ -9,11 +9,5 @@ export const labels = {
 export const url = {
     BASE: 'https://www.amazon.com',
     SEARCH: '/s',
-    KEY_QUERY: 'k=',
-    // labels: {
-    //     START_URL: 'START_URL',
-    //     PRODUCT_PAGE: 'PRODUCT_PAGE',
-    // },
-    // KV_STORE_ASIN_TO_OFFERS_KEY: 'asin-to-offers-scraped',
-    // KV_STORE_CURRENT_RUN_DATA_KEY: 'current-run-data',
+    KEY_QUERY: 'k='
 };
