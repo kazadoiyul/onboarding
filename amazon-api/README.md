@@ -21,7 +21,8 @@ If you're looking for examples or want to learn more visit:
 2. Create a configuration for proxy servers to be used during the crawling with `Actor.createProxyConfiguration()` to work around IP blocking. Use Apify Proxy or your own Proxy URLs provided and rotated according to the configuration. You can read more about proxy configuration [here](https://crawlee.dev/api/core/class/ProxyConfiguration).
 3. Create an instance of Crawlee's Puppeteer Crawler with `new PuppeteerCrawler()`. You can pass [options](https://crawlee.dev/api/puppeteer-crawler/interface/PuppeteerCrawlerOptions) to the crawler constructor as:
     - `proxyConfiguration` - provide the proxy configuration to the crawler
-    - `requestHandler` - handle each request with custom router defined in the `routes.ts` file.
+    - `requestHandler` - handle each request with custom router defined in the `
+    - routes.ts` file.
 4. Handle requests with the custom router from `routes.ts` file. Read more about custom routing for the Cheerio Crawler [here](https://crawlee.dev/api/puppeteer-crawler/function/createPuppeteerRouter)
 
     - Create a new router instance with `new createPuppeteerRouter()`
