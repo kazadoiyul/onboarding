@@ -8,7 +8,7 @@ const input = await Actor.getInput();
 
 const { useClient, memory, fields, maxItems } = input as {useClient : boolean,  memory: number, fields: string[], maxItems: number};
 
-let outputData : { [id: string]: any; } = {};
+let outputData : any[] = []
 let keyword = "iphone m";
 let rawData = []
 
@@ -52,9 +52,12 @@ for (const [key, item] of Object.entries(rawData) as [string, any]) {
             filteredItem[col] = item[col];
         }
     }
-    outputData[key] = filteredItem;
+    console.log(JSON.stringify(filteredItem));
+    outputData.push(filteredItem);
 }
 
-log.info('Output dataset looks like:', outputData);
+log.info('Output dataset looks like this: ', outputData);
+
+await Actor.pushData(outputData)
 
 await Actor.exit()
