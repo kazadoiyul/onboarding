@@ -1,6 +1,7 @@
 import {Actor} from 'apify';
 import {log} from "crawlee";
 import { TOKEN, TARGET_ACTOR, TYPE } from "./constants.js"
+import {stringify} from "node:querystring";
 
 await Actor.init();
 
@@ -60,4 +61,22 @@ log.info('Output dataset looks like this: ', outputData);
 
 await Actor.pushData(outputData)
 
+const csv = convertToCSV(outputData);
+
+await Actor.setValue('OUTPUT', csv, {
+    contentType: 'text/csv',
+});
+
 await Actor.exit()
+
+
+function convertToCSV(data: Record<string, any>[]): string {
+    if (data.length === 0) return '';
+
+    const headers = Object.keys(data[0]);
+    const csvRows = [
+        headers.join(','),
+        ...data.map(row => headers.map(header => `"${(row[header] ?? '').toString().replace(/"/g, '""')}"`).join(','))
+    ];
+    return csvRows.join('\n');
+}
