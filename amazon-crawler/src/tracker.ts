@@ -5,7 +5,7 @@ class Tracker {
     private state: {[key: string] : number}
     constructor() {
         this.state = {}
-        setInterval(() => log.info(stringify(this.state)), 10000);
+        setInterval(() => console.log(stringify(this.state)), 2000);
     }
 
     updateCount(asin: string) {

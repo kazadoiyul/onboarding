@@ -26,7 +26,7 @@ router.addHandler(labels.START, async ({ $, crawler, request }) => {
 
         const url = `${BASE_URL}${titleElement.attr('href')}`;
 
-        log.info(`Processing ${titleElement.first().text().trim()}`);
+        // log.info(`Processing ${titleElement.first().text().trim()}`);
 
         await crawler.addRequests([{
             url,
@@ -52,6 +52,7 @@ router.addHandler(labels.PRODUCT, async ({ $, crawler, request }) => {
     const description = element.text().trim();
     log.debug(`description is: ${description}`);
 
+    log.info(`Processing ${element.attr('data-asin')}`);
     tracker.updateCount(data.asin)
 
     await crawler.addRequests([{
