@@ -2,6 +2,7 @@ import { createCheerioRouter, log } from 'crawlee';
 import { BASE_URL, labels } from './constants.js';
 import {Actor} from "apify";
 
+import {tracker} from './tracker.js';
 
 export const router = createCheerioRouter();
 
@@ -50,6 +51,8 @@ router.addHandler(labels.PRODUCT, async ({ $, crawler, request }) => {
     const element = $('div#productDescription');
     const description = element.text().trim();
     log.debug(`description is: ${description}`);
+
+    tracker.updateCount(data.asin)
 
     await crawler.addRequests([{
         url: `${BASE_URL}/gp/aod/ajax/ref=auto_load_aod?asin=${data.asin}&pc=dp`,
