@@ -3,15 +3,12 @@ import { BASE_URL, labels } from './constants.js';
 import {Actor} from "apify";
 
 import {tracker} from './tracker.js';
+import {stats} from "./statistics.js";
 
 export const router = createCheerioRouter();
 
 router.addHandler(labels.START, async ({ $, crawler, request }) => {
     const { keyword } = request.userData;
-
-    const currentPageUrl = request.url;
-
-    log.info(`Current page URL: ${currentPageUrl}`);
 
     const products = $('div > div[data-asin]:not([data-asin=""])');
 
@@ -25,8 +22,6 @@ router.addHandler(labels.START, async ({ $, crawler, request }) => {
         }
 
         const url = `${BASE_URL}${titleElement.attr('href')}`;
-
-        // log.info(`Processing ${titleElement.first().text().trim()}`);
 
         await crawler.addRequests([{
             url,
@@ -50,10 +45,6 @@ router.addHandler(labels.PRODUCT, async ({ $, crawler, request }) => {
 
     const element = $('div#productDescription');
     const description = element.text().trim();
-    log.debug(`description is: ${description}`);
-
-    log.info(`Processing ${element.attr('data-asin')}`);
-    tracker.updateCount(data.asin)
 
     await crawler.addRequests([{
         url: `${BASE_URL}/gp/aod/ajax/ref=auto_load_aod?asin=${data.asin}&pc=dp`,
@@ -67,21 +58,30 @@ router.addHandler(labels.PRODUCT, async ({ $, crawler, request }) => {
     }]);
 });
 
-router.addHandler(labels.OFFERS, async ({ $, request }) => {
+router.addHandler(labels.OFFERS, async ({ $, request, crawler }) => {
     const { data } = request.userData;
 
-    for (const offer of $('#aod-offer')) {
+    const aod = $('#aod-offer');
+    for (const offer of aod) {
+        tracker.updateCount(data.asin)
+        stats.success()
+        log.debug(`Processing ${data.asin} (${aod.index(offer)})`);
         const element = $(offer);
         const elementPrice = element.find('.a-price .a-offscreen').text().trim();
         if (!elementPrice) {
             continue;
         }
+        const queue = await crawler.getRequestQueue()
         await Actor.pushData({
             ...data,
             sellerName: element.find('div[id*="soldBy"] a[aria-label]').text().trim(),
             offer: elementPrice,
+            dateHandled : new Date().toISOString(),
+            numberOfRetries : request.retryCount,
+            currentPendingRequests : queue.getTotalCount() - (await queue.handledCount()),
         });
     }
+
 });
 
 

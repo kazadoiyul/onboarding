@@ -5,13 +5,12 @@ class Tracker {
     private state: {[key: string] : number}
     constructor() {
         this.state = {}
-        setInterval(() => console.log(stringify(this.state)), 2000);
+        setInterval(() => console.log(stringify(this.state)), 10000);
     }
 
     updateCount(asin: string) {
         if (this.state[asin] === undefined) {
             this.state[asin] = 0;
-            return;
         }
         this.state[asin] += 1
     }
