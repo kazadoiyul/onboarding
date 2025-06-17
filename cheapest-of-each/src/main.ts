@@ -48,8 +48,6 @@ for (const product of rows) {
 
 }
 
-// printDict(best_items);
-
 Object.values(best_items).forEach(async value => {
     await Actor.pushData(value);
 })
